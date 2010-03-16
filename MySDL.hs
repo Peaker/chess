@@ -1,7 +1,7 @@
 {-# OPTIONS -Wall -O2 #-}
 
 module MySDL where
-    import qualified MyMonad
+    import TakeWhile(takeWhileM)
     import Data.Word(Word8)
     import qualified Graphics.UI.SDL as SDL
     import qualified Graphics.UI.SDL.TTF as TTF
@@ -23,7 +23,7 @@ module MySDL where
     sdlPixel (r, g, b) surface = SDL.mapRGB (SDL.surfaceGetPixelFormat surface) r g b
 
     getEvents :: IO [SDL.Event]
-    getEvents = MyMonad.takeWhileM (return . (/=SDL.NoEvent)) SDL.pollEvent
+    getEvents = takeWhileM (return . (/=SDL.NoEvent)) SDL.pollEvent
 
     surfaceGetSize :: SDL.Surface -> (Int, Int)
     surfaceGetSize surface = (fromIntegral (SDL.surfaceGetWidth surface),

@@ -2,8 +2,8 @@ module Chess where
 
   -- TODO: AI!
 
-  import qualified MapManyToOne
-  import MapManyToOne((!))
+  import qualified Data.MapManyToOne as MapManyToOne
+  import Data.MapManyToOne((!))
   import qualified Data.Map as Map
   import Data.Maybe
  

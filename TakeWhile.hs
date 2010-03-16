@@ -1,5 +1,5 @@
 {-# OPTIONS -O2 -Wall #-}
-module Control.Monad.TakeWhile(takeWhileM) where
+module TakeWhile(takeWhileM) where
 import Control.Monad(liftM)
 
 takeWhileM :: Monad m => (a -> m Bool) -> m a -> m [a]
