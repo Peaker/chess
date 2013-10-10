@@ -1,4 +1,4 @@
-{-# OPTIONS -fglasgow-exts #-}
+{-# LANGUAGE DeriveDataTypeable #-}
 
 module Main
 where
@@ -12,7 +12,7 @@ where
   import qualified Control.Monad as Monad
   import qualified Control.Exception as Exception
   import qualified GormanChessPieces
-      
+
   data Quit = Quit
     deriving (Show, Typeable)
   instance Exception.Exception Quit where
@@ -72,7 +72,7 @@ where
           in case moves of
             [] -> Nothing
             _ -> Just (moves !! ((hx * length moves `div` width)))
-                           
+
   handleDragDrop :: (Int, Int) -> IORef GameState -> IO ()
   handleDragDrop screenPos gameState = do
     currentGameState <- readIORef gameState
@@ -100,7 +100,7 @@ where
   handleEvents :: [SDL.Event] -> IORef GameState -> IO ()
   handleEvents events gameState = do
     Monad.forM_ events $ \event ->
-        case event of 
+        case event of
           SDL.Quit -> (Exception.throw Quit)
           SDL.MouseButtonDown x y b ->
               if b == SDL.ButtonLeft
@@ -139,7 +139,7 @@ where
     pixel <- MySDL.sdlPixel color display
     SDL.fillRect display (Just rect) pixel
     return ()
-                        
+
   screenPosOfPos :: Chess.Pos -> (Int, Int)
   screenPosOfPos (Chess.Pos (x, y)) = let (width, height) = GormanChessPieces.size
                                       in (x*width, y*height)
@@ -167,7 +167,7 @@ where
       in nub [component pieceMovement |
               (_, pieceMovements) <- moves,
               pieceMovement <- pieceMovements]
-                           
+
   drawChessBoard :: IORef GameState -> SDL.Surface -> IO ()
   drawChessBoard gameState display = do
     currentGameState <- readIORef gameState
@@ -189,7 +189,7 @@ where
                       Just (_, []) -> error "A move without piece movements is invalid"
         drawPiece display (Chess.bPlayer board) piece $ SDL.Rect (x-hx) (y-hy) 0 0
         return ()
-                                          
+
   mainLoop :: SDL.Surface -> IO ()
   mainLoop display = do
     black <- MySDL.sdlPixel (0, 0, 0) display
@@ -220,7 +220,7 @@ where
                                show (Chess.otherPlayer $ Chess.bPlayer board) ++ " wins!"
                            else
                                show (Chess.bPlayer board) ++ "'s turn"
-                            
+
         textSurface <- MySDL.renderTextSolid font text textColor
         SDL.blitSurface textSurface Nothing display $ Just (SDL.Rect 0 550 0 0)
         SDL.flip display
